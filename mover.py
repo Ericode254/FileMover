@@ -1,14 +1,14 @@
 import shutil
+import os
 
 def move(source: str, destination: str):
-    sources = []
+    for file_name in os.listdir(source):
+        if file_name.endswith(".mp4") or file_name.endswith(".mkv"):
+            shutil.move(source + "/" + file_name, destination)
+            print("File(s) moved!!!")
+            return
 
-    with open("text.txt", "r") as file:
-        for f in file.readlines():
-            sources.append(f)
-
-    for i in sources:
-        shutil.move(source + "/" + i.rstrip("\n"), destination)
+    print("No any video files present in the directory")
 
 def main():
     source = input("Enter the source path of the files: ")
