@@ -1,13 +1,44 @@
 import shutil
 import os
+import sys
+
+# responsible for checking the type of system
+def sys_check() -> str:
+    if sys.platform != "win32":
+        sys_path = "/home/code/"
+        return sys_path
+    else:
+        sys_path = r"C:\\users\code"
+        return sys_path
+
+# the root directory
+sys_path = sys_check()
+
+# checking whether a specific directory exists
+def directory_validity(path: str) -> bool:
+    for folder_name in os.listdir(sys_path):
+        if folder_name == path:
+            return True
+
+    return False
+
+# is responsible for creating the directory if not present
+def destination_creation(name: str):
+    if directory_validity(name) is False:
+        os.mkdir(sys_path + name)
+        return
 
 # is responsible for moving the files to the specified directory
 def move(source: str, destination: str, file: tuple[str]):
-    for file_name in os.listdir(source):
-        if file_name.endswith(file):
-            shutil.move(source + "/" + file_name, destination)
-        else:
-            print("The files stated are not present")
+    destination_creation(destination)
+    if directory_validity(source) == True:
+        for file_name in os.listdir(sys_path + source):
+            if file_name.endswith(file):
+                shutil.move(sys_path + source + "/" + file_name, sys_path + destination)
+            elif file_name.endswith(file) == False:
+                print("The files stated are not present")
+    else:
+        print("Enter correct source or destination")
 
 # handles the execution
 def main():
