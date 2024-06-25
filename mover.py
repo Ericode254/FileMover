@@ -31,11 +31,11 @@ def destination_creation(name: str):
 # is responsible for moving the files to the specified directory
 def move(source: str, destination: str, file: tuple[str]):
     destination_creation(destination)
-    if directory_validity(source) == True:
+    if directory_validity(source) is True:
         for file_name in os.listdir(sys_path + source):
             if file_name.endswith(file):
                 shutil.move(sys_path + source + "/" + file_name, sys_path + destination)
-            elif file_name.endswith(file) == False:
+            elif file_name.endswith(file) is False:
                 print("The files stated are not present")
     else:
         print("Enter correct source or destination")
