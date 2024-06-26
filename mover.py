@@ -1,6 +1,7 @@
 import shutil
 import os
 import sys
+import argparse
 
 # responsible for checking the type of system
 def sys_check() -> str:
@@ -38,7 +39,35 @@ def move(source: str, destination: str, file: tuple[str]):
             elif file_name.endswith(file) is False:
                 print("The files stated are not present")
     else:
-        print("Enter correct source or destination")
+        print("Enter the correct source")
+
+# responsible for moving files from a list
+def move_from_file(source: str, destination: str, file: list[str]):
+    destination_creation(destination)
+    if directory_validity(source) is True:
+        for file_name in os.listdir(sys_path + source):
+            if file_name in file:
+                shutil.move(sys_path + source + "/" + file_name, sys_path + destination)
+            elif file_name not in file:
+                print("Files not present")
+    else:
+        print("Enter the correct source")
+
+
+# responsible for taking a list as a command line argument
+def parse_list_to_move():
+    parser = argparse.ArgumentParser(description="Reads from file")
+    parser.add_argument("--file",
+                        default=sys.stdin,
+                        type=argparse.FileType("r"),
+                        help="python mover.py --file <file name>")
+    args = parser.parse_args()
+    file_names = []
+    for line in args.name.readlines():
+        line = line.rstrip("\n")
+        file_names.append(line)
+
+    return file_names
 
 # handles the execution
 def main():
@@ -76,7 +105,7 @@ def main():
         )
 
     choice = input("Enter your choice: ")
-    if choice in choices.keys():
+    if choice in choices:
         if source == "" :
             print("Enter source!")
             main()
@@ -84,9 +113,13 @@ def main():
             print("Enter the destination")
             main()
         else:
-            file = tuple(choices[choice])
-            move(source, destination, file)
-            print("File(s) moved!!!")
+            file1 = parse_list_to_move()
+            if not file1:
+                file2 = tuple(choices[choice])
+                move(source, destination, file2)
+                print("File(s) moved!!!")
+            else:
+                move_from_file(source, destination, file1)
     else:
         print("Wrong choice")
         trial = input("Would you like to try again (t) or quit (q) (t | q): ")
@@ -97,4 +130,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
