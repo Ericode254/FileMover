@@ -1,7 +1,7 @@
-import shutil
-import os
-import sys
 import argparse
+import os
+import shutil
+import sys
 
 
 # responsible for checking the type of system
@@ -13,8 +13,10 @@ def sys_check() -> str:
         sys_path = r"C:\\users\code"
         return sys_path
 
+
 # the root directory
 sys_path = sys_check()
+
 
 # checking whether a specific directory exists
 def directory_validity(path: str) -> bool:
@@ -61,10 +63,12 @@ def move_from_file(source: str, destination: str, file: list[str]):
 # responsible for taking a list as a command line argument
 def parse_list_to_move() -> list[str]:
     parser = argparse.ArgumentParser(description="Reads from file")
-    parser.add_argument("--file",
-                        default=sys.stdin,
-                        type=argparse.FileType("r"),
-                        help="python mover.py --file <file name>")
+    parser.add_argument(
+        "--file",
+        default=sys.stdin,
+        type=argparse.FileType("r"),
+        help="python mover.py --file <file name>",
+    )
     args = parser.parse_args()
     file_names = []
     for line in args.name.readlines():
@@ -92,26 +96,27 @@ def main():
     )
 
     choices = {
-        "1" : [".txt"],
-        "2" : [".mp4", ".mkv"],
-        "3" : [".doc", ".docx", ".pdf", ".pptx"],
-        "4" : [".jpg", ".jpeg", ".png"]
+        "1": [".txt"],
+        "2": [".mp4", ".mkv"],
+        "3": [".doc", ".docx", ".pdf", ".pptx"],
+        "4": [".jpg", ".jpeg", ".png"],
     }
 
     source = input("Enter the source path of the files: ")
     destination = input("Enter the destination path of the files: ")
     print("What type of file(s) would you like to move?")
-    print("""
+    print(
+        """
              1.  Text files (txt)
              2.  Video files (mp4, mkv)
              3.  Documents (doc, docx, pdf)
              4.  Pictures (jpg, jpeg, png)
           """
-        )
+    )
 
     choice = input("Enter your choice: ")
     if choice in choices:
-        if source == "" :
+        if source == "":
             print("Enter source!")
             main()
         elif destination == "":
@@ -132,6 +137,7 @@ def main():
             main()
         else:
             print("Bye!!!")
+
 
 if __name__ == "__main__":
     main()
