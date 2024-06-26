@@ -3,6 +3,7 @@ import os
 import sys
 import argparse
 
+
 # responsible for checking the type of system
 def sys_check() -> str:
     if sys.platform != "win32":
@@ -23,11 +24,13 @@ def directory_validity(path: str) -> bool:
 
     return False
 
+
 # is responsible for creating the directory if not present
 def destination_creation(name: str):
     if directory_validity(name) is False:
         os.mkdir(sys_path + name)
         return
+
 
 # is responsible for moving the files to the specified directory
 def move(source: str, destination: str, file: tuple[str]):
@@ -40,6 +43,7 @@ def move(source: str, destination: str, file: tuple[str]):
                 print("The files stated are not present")
     else:
         print("Enter the correct source")
+
 
 # responsible for moving files from a list
 def move_from_file(source: str, destination: str, file: list[str]):
@@ -55,7 +59,7 @@ def move_from_file(source: str, destination: str, file: list[str]):
 
 
 # responsible for taking a list as a command line argument
-def parse_list_to_move():
+def parse_list_to_move() -> list[str]:
     parser = argparse.ArgumentParser(description="Reads from file")
     parser.add_argument("--file",
                         default=sys.stdin,
@@ -68,6 +72,7 @@ def parse_list_to_move():
         file_names.append(line)
 
     return file_names
+
 
 # handles the execution
 def main():
@@ -89,7 +94,7 @@ def main():
     choices = {
         "1" : [".txt"],
         "2" : [".mp4", ".mkv"],
-        "3" : [".doc", ".docx", ".pdf"],
+        "3" : [".doc", ".docx", ".pdf", ".pptx"],
         "4" : [".jpg", ".jpeg", ".png"]
     }
 
