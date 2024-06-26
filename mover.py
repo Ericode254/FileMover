@@ -34,15 +34,31 @@ def destination_creation(name: str):
         return
 
 
+# get contents of the source directory
+def contents_list(path: str, source: str, destination: str, file: tuple[str], number: str | int):
+    num = number
+    num2 = int(number)
+    for file_name in os.listdir(sys_path + source):
+        if file_name.endswith(file):
+            if num == "":
+                shutil.move(path + source + "/" + file_name, path + destination)
+            elif int(num2) > 0:
+                shutil.move(path + source + "/" + file_name, path + destination)
+                num2 -= 1
+            else:
+                print("wrong choice")
+                break
+        elif file_name.endswith(file) is False:
+            print("The files stated are not present")
+
+
 # is responsible for moving the files to the specified directory
-def move(source: str, destination: str, file: tuple[str]):
+def move(source: str, destination: str, file: tuple[str], number: str):
     destination_creation(destination)
-    if directory_validity(source) is True:
-        for file_name in os.listdir(sys_path + source):
-            if file_name.endswith(file):
-                shutil.move(sys_path + source + "/" + file_name, sys_path + destination)
-            elif file_name.endswith(file) is False:
-                print("The files stated are not present")
+    if directory_validity(source) is True and number == "":
+        contents_list(sys_path, source, destination, file, number) 
+    elif directory_validity(source) is True:
+        contents_list(sys_path, source, destination, file, number)
     else:
         print("Enter the correct source")
 
@@ -115,6 +131,7 @@ def main():
     )
 
     choice = input("Enter your choice: ")
+    number_of_files = input("Enter the number of files to move (default: all): ")
     if choice in choices:
         if source == "":
             print("Enter source!")
@@ -126,7 +143,7 @@ def main():
             file1 = parse_list_to_move()
             if not file1:
                 file2 = tuple(choices[choice])
-                move(source, destination, file2)
+                move(source, destination, file2, number_of_files)
                 print("File(s) moved!!!")
             else:
                 move_from_file(source, destination, file1)
