@@ -35,7 +35,9 @@ def destination_creation(name: str):
 
 
 # get contents of the source directory
-def contents_list(path: str, source: str, destination: str, file: tuple[str], number: str | int):
+def contents_list(
+    path: str, source: str, destination: str, file: tuple[str], number: str | int
+):
     num = number
     num2 = int(number)
     for file_name in os.listdir(sys_path + source):
@@ -56,7 +58,7 @@ def contents_list(path: str, source: str, destination: str, file: tuple[str], nu
 def move(source: str, destination: str, file: tuple[str], number: str):
     destination_creation(destination)
     if directory_validity(source) is True and number == "":
-        contents_list(sys_path, source, destination, file, number) 
+        contents_list(sys_path, source, destination, file, number)
     elif directory_validity(source) is True:
         contents_list(sys_path, source, destination, file, number)
     else:
